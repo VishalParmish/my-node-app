@@ -2,7 +2,7 @@ pipeline {
     agent any
 
     environment {
-        SONAR_TOKEN = credentials('sonar-token')  // Reference to Jenkins credential
+        SONAR_TOKEN = credentials('sonar_token')  // Reference to Jenkins credential
     }
 
     stages {
