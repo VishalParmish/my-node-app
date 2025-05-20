@@ -1,0 +1,12 @@
+{
+  "name": "my-node-app",
+  "version": "1.0.0",
+  "description": "A basic Node.js app with Jenkins CI/CD",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"No test specified\" && exit 0",
+    "start": "node index.js"
+  },
+  "author": "Your Name",
+  "license": "MIT"
+}
