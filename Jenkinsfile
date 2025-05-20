@@ -24,7 +24,7 @@ pipeline {
                 withSonarQubeEnv('sonarqube1') {
                     sh """
                         sonar-scanner \
-                          -Dsonar.projectKey=sonar_token \
+                          -Dsonar.projectKey=my_project_key \
                           -Dsonar.projectName=my-node-app\
                           -Dsonar.sources=src \
                           -Dsonar.host.url=http://localhost:9000 \
