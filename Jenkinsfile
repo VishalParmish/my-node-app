@@ -1,35 +1,52 @@
 pipeline {
     agent any
 
-    stages {
-        stage('Clone') {
-            steps {
-                git 'https://github.com/VishalParmish/my-node-app.git'
-            }
-        }
-        
-        stage('Install') {
-            steps {
-                sh 'npm install'
-            }
-        }
+    environment {
+        SONAR_TOKEN = credentials('sonar-token')  // Reference to Jenkins credential
+    }
 
-        stage('Test') {
+    stages {
+        stage('Checkout') {
             steps {
-                sh 'npm test || echo "No tests defined."'
+                checkout scm  // Pulls code from Git or other VCS
             }
         }
 
         stage('Build') {
             steps {
-                echo 'Build step (placeholder)'
+                echo 'Insert your build steps here'
+                // sh 'mvn clean install' or 'npm install' etc.
             }
         }
 
-        stage('Deploy') {
+        stage('SonarQube Analysis') {
             steps {
-                echo 'Deploy step (manual or script-based)'
+                withSonarQubeEnv('MySonarQube') {
+                    sh """
+                        sonar-scanner \
+                          -Dsonar.projectKey=my_project_key \
+                          -Dsonar.projectName=My_Project \
+                          -Dsonar.sources=src \
+                          -Dsonar.host.url=http://localhost:9000 \
+                          -Dsonar.login=$SONAR_TOKEN
+                    """
+                }
+            }
+        }
+
+        stage('Quality Gate') {
+            steps {
+                timeout(time: 2, unit: 'MINUTES') {
+                    waitForQualityGate abortPipeline: true
+                }
             }
         }
     }
+
+    post {
+        always {
+            echo 'Pipeline completed.'
+        }
+    }
 }
+
