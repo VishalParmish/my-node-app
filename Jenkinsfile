@@ -22,14 +22,14 @@ pipeline {
         stage('SonarQube Analysis') {
             steps {
                 withSonarQubeEnv('sonarqube1') {
-                    sh """
-                        sonar-scanner \
+                    sh '''
+                       sonar-scanner \
                           -Dsonar.projectKey=my_project_key \
-                          -Dsonar.projectName=my-node-app\
+                          -Dsonar.projectName=my-node-app \
                           -Dsonar.sources=src \
                           -Dsonar.host.url=http://localhost:9000 \
                           -Dsonar.login=$SONAR_TOKEN
-                    """
+                    '''
                 }
             }
         }
